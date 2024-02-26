@@ -13,18 +13,22 @@
 	--font-size-800: clamp(2.0736rem, 1.7334rem + 1.7011vw, 3.0518rem);
 	--font-size-900: clamp(2.4883rem, 2.027rem + 2.3067vw, 3.8147rem);
 
-	--clr-primary: #414345;
-	--clr-secondary: #ee9b00;
+	--clr-primary: #ee9b00;
+	--clr-primary-2: #fc6d35;
 	--clr-dark: #1b1818;
-	--clr-light-1: #fff;
+	--clr-light: #fff;
 	--clr-grey: #787878;
+	--clr-grey-2: #414345;
 	--clr-red: #e21f22;
+	--clr-green: #5bbf1d;
 	--clr-overlay: rgb(0, 0, 0, 0.6);
+
 	--bg-gradient: linear-gradient(to right, #232526, #73777b);
 
-	--box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.6);
+	--box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.4);
 
-	--border-radius-1: 10px;
+	--border-radius-1: 8px;
+	--border-radius-2: 50px;
 }
 
 *,
@@ -38,7 +42,7 @@
 body {
 	font-family: var(--ff-body);
 	font-size: var(--font-size-400);
-	color: var(--clr-light-1);
+	color: var(--clr-light);
 	background: var(--bg-gradient);
 	line-height: 1.2;
 }
@@ -86,10 +90,9 @@ button {
 	display: inline-block;
 	cursor: pointer;
 	background: var(--clr-grey);
-	color: var(--clr-light-1);
+	color: var(--clr-light);
 	font-size: var(--font-size-500);
 	font-weight: 600;
-	text-transform: uppercase;
 	border: none;
 	padding: 0.5em 1.5em;
 	border-radius: var(--border-radius-1);
@@ -102,7 +105,11 @@ button:hover {
 }
 
 button:active {
-	background: var(--clr-primary);
+	opacity: 0.9;
+}
+
+button:focus {
+	outline: 1px solid var(--clr-dark);
 }
 
 /* LAYOUT */
@@ -165,9 +172,135 @@ header .library-ledger p {
 }
 
 header .library-ledger span {
-	color: var(--clr-secondary);
+	color: var(--clr-primary);
 	font-weight: 700;
 	border-bottom: 1px solid currentColor;
+}
+
+/* --Form Modal-- */
+header .form-modal {
+	width: min(80%, 25rem);
+	padding: 2rem;
+	border: none;
+	border-radius: var(--border-radius-1);
+	background: var(--clr-grey);
+
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+header .form-modal::backdrop {
+	background: var(--clr-overlay);
+}
+
+header .form-modal[open] {
+	animation: fade-in 0.5s forwards;
+	animation: scale-up 0.5s forwards;
+}
+
+header .form-modal[open]::backdrop {
+	animation: fade-in 0.5s forwards;
+}
+
+header .form-modal[closing] {
+	animation: fade-out 0.5s forwards;
+}
+
+header .form-modal[closing]::backdrop {
+	animation: fade-out 0.5s forwards;
+}
+
+header .form-modal .close-btn {
+	display: block;
+	padding: 0.1em 0.3em 0.05em;
+	margin: 0 0 1rem auto;
+	color: var(--clr-light);
+	align-self: end;
+	border-radius: var(--border-radius-2);
+	box-shadow: none;
+	background: none;
+	transition: transform 0.3s ease-in-out;
+}
+
+header .form-modal .close-btn:hover {
+	transform: rotate(180deg) scale(1.3);
+}
+
+/* --Form-- */
+header .library-form {
+	color: var(--clr-light);
+
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+header .library-form fieldset {
+	border: none;
+}
+
+header .library-form legend {
+	font-size: var(--font-size-600);
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 1rem;
+	border-bottom: 2px solid currentColor;
+}
+
+header .library-form .input-wrapper {
+	margin-bottom: 1.5rem;
+
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+header .library-form .input-wrapper > label {
+	margin-left: 0.5rem;
+	font-size: var(--font-size-300);
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+header .library-form .input-wrapper > input {
+	padding: 0.3rem 0.5rem;
+	border: none;
+	border-radius: var(--border-radius-2);
+}
+
+header .library-form .input-wrapper > input:focus {
+	outline: 0;
+	border: 2px solid var(--clr-green);
+	box-shadow: var(--box-shadow);
+}
+
+header .library-form .input-wrapper > input:focus:invalid {
+	border: 2px solid var(--clr-red);
+}
+
+header .library-form .required-label {
+	color: var(--clr-red);
+	border: none;
+}
+
+header .library-form .status-field {
+	margin: 0;
+
+	align-items: start;
+	gap: 0.5rem;
+}
+
+header .library-form .radio-btn input {
+	accent-color: var(--clr-red);
+	margin-right: 0.2rem;
+}
+
+header .library-form .add-book-btn {
+	background: var(--clr-light);
+	color: var(--clr-dark);
+	font-size: var(--font-size-400);
 }
 
 /* LIBRARY SECTION */
@@ -220,7 +353,7 @@ header .library-ledger span {
 }
 
 #library .library-book-card span {
-	color: var(--clr-secondary);
+	color: var(--clr-primary);
 	font-family: var(--ff-heading);
 	font-weight: 600;
 }
@@ -229,7 +362,7 @@ header .library-ledger span {
 	cursor: pointer;
 	margin-left: 0.5rem;
 	font-size: var(--font-size-500);
-	color: #fc6d35;
+	color: var(--clr-primary-2);
 
 	transition: transform 0.4s ease-in-out;
 }
@@ -261,4 +394,35 @@ header .library-ledger span {
 
 #library .library-book-card .trash-icon:active {
 	opacity: 0.8;
+}
+
+/* ANIMATIONS */
+@keyframes fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes scale-up {
+	0% {
+		transform: translate(-50%, -50%) scale(0);
+	}
+
+	100% {
+		transform: translate(-50%, -50%) scale(1);
+	}
 }

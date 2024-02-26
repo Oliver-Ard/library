@@ -17,7 +17,67 @@
 			<div class="container">
 				<h1>The Lost Library</h1>
 				<div class="library-ledger">
-					<button>New Book</button>
+					<button class="new-book-btn">
+						New Book <i class="fa-solid fa-feather-pointed"></i>
+					</button>
+
+					<!-- Modal Form -->
+					<dialog class="form-modal">
+						<button class="close-btn">
+							<i class="fa-solid fa-xmark"></i>
+						</button>
+						<!-- Form -->
+						<form class="library-form" method="POST" action="#">
+							<fieldset>
+								<legend>Add A Lost Book</legend>
+								<div class="input-wrapper">
+									<label for="title"
+										>Title<span class="required-label" aria-label="required"
+											>*</span
+										></label
+									>
+									<input
+										type="text"
+										id="title"
+										name="title"
+										required
+										autofocus />
+								</div>
+
+								<div class="input-wrapper">
+									<label for="author"
+										>Author<span class="required-label" aria-label="required"
+											>*</span
+										></label
+									>
+									<input type="text" id="author" name="author" required />
+								</div>
+
+								<div class="input-wrapper">
+									<label for="pages"
+										>Pages<span class="required-label" aria-label="required"
+											>*</span
+										></label
+									>
+									<input type="number" name="pages" required />
+								</div>
+
+								<div class="input-wrapper status-field">
+									<label>Status</label>
+									<div class="radio-btn">
+										<input type="radio" id="read" name="status" />
+										<label for="read" class="radio-label">read</label>
+									</div>
+									<div class="radio-btn">
+										<input type="radio" id="not-read" name="status" checked />
+										<label for="not-read" class="radio-label">not read</label>
+									</div>
+								</div>
+							</fieldset>
+							<button class="add-book-btn" formmethod="dialog">Add</button>
+						</form>
+					</dialog>
+
 					<p><span>Books</span>: 156</p>
 				</div>
 			</div>
