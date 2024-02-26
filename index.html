@@ -20,7 +20,6 @@
 					<button class="new-book-btn">
 						New Book <i class="fa-solid fa-feather-pointed"></i>
 					</button>
-
 					<!-- Modal Form -->
 					<dialog class="form-modal">
 						<button class="close-btn">
@@ -59,18 +58,25 @@
 											>*</span
 										></label
 									>
-									<input type="number" name="pages" required />
+									<input type="number" id="pages" name="pages" required />
 								</div>
 
 								<div class="input-wrapper status-field">
 									<label>Status</label>
 									<div class="radio-btn">
-										<input type="radio" id="read" name="status" />
+										<input type="radio" id="read" name="status" value="read" />
 										<label for="read" class="radio-label">read</label>
 									</div>
 									<div class="radio-btn">
-										<input type="radio" id="not-read" name="status" checked />
-										<label for="not-read" class="radio-label">not read</label>
+										<input
+											type="radio"
+											id="not-read"
+											name="status"
+											value="not read yet"
+											checked />
+										<label for="not-read" class="radio-label"
+											>not read yet</label
+										>
 									</div>
 								</div>
 							</fieldset>
@@ -78,106 +84,14 @@
 						</form>
 					</dialog>
 
-					<p><span>Books</span>: 156</p>
+					<p class="books-number"><span>Books</span>: 0</p>
 				</div>
 			</div>
 		</header>
 
 		<main>
 			<div class="container">
-				<section id="library">
-					<div class="library-book-card">
-						<h2>#<span>1</span></h2>
-						<ul>
-							<li><span>Title</span>: "Maus"</li>
-							<li><span>Author</span>: Art Spiegelman</li>
-							<li><span>Pages</span>: 224</li>
-							<li>
-								<span>Status</span>: read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-
-					<div class="library-book-card">
-						<h2>#<span>2</span></h2>
-						<ul>
-							<li><span>Title</span>: "Baiatul cu pijamale in dungi"</li>
-							<li><span>Author</span>: John Boyne</li>
-							<li><span>Pages</span>: 296</li>
-							<li>
-								<span>Status</span>: not read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-
-					<div class="library-book-card">
-						<h2>#<span>3</span></h2>
-						<ul>
-							<li>
-								<span>Title</span>: "Hotul de carti. Curaj mai presus de
-								cuvinte"
-							</li>
-							<li><span>Author</span>: Markus Zusak</li>
-							<li><span>Pages</span>: 440</li>
-							<li>
-								<span>Status</span>: read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-
-					<div class="library-book-card">
-						<h2>#<span>4</span></h2>
-						<ul>
-							<li>
-								<span>Title</span>: "Ugly love. Despre fata urata a iubirii"
-							</li>
-							<li><span>Author</span>: Collen Hoover</li>
-							<li><span>Pages</span>: 352</li>
-							<li>
-								<span>Status</span>: read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-
-					<div class="library-book-card">
-						<h2>#<span>5</span></h2>
-						<ul>
-							<li><span>Title</span>: "Totul incepe cu noi"</li>
-							<li><span>Author</span>: Collen Hoover</li>
-							<li><span>Pages</span>: 368</li>
-							<li>
-								<span>Status</span>: not read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-
-					<div class="library-book-card">
-						<h2>#<span>6</span></h2>
-						<ul>
-							<li>
-								<span>Title</span>: "Traume ascunse. Elibereaza-te de ranile
-								trecutului care iti afecteaza prezentul"
-							</li>
-							<li><span>Author</span>: Catherine Gildiner</li>
-							<li><span>Pages</span>: 400</li>
-							<li>
-								<span>Status</span>: not read
-								<i class="fa-solid fa-arrows-rotate status-icon"></i>
-							</li>
-						</ul>
-						<i class="fa-solid fa-trash trash-icon"></i>
-					</div>
-				</section>
+				<section id="library"></section>
 			</div>
 		</main>
 	</body>

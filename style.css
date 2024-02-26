@@ -166,12 +166,12 @@ header .library-ledger {
 	margin: 3rem 0 2rem;
 }
 
-header .library-ledger p {
+header .library-ledger .books-number {
 	font-size: var(--font-size-600);
 	font-family: var(--ff-heading);
 }
 
-header .library-ledger span {
+header .library-ledger .books-number span {
 	color: var(--clr-primary);
 	font-weight: 700;
 	border-bottom: 1px solid currentColor;
