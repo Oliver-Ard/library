@@ -12,6 +12,7 @@ const statusInput = libraryForm.querySelectorAll("input[name='status']");
 // Library
 const booksNrEl = document.querySelector(".library-ledger .books-number");
 const library = document.querySelector("#library");
+const bookCardEl = document.querySelectorAll(".library-book-card");
 
 // --App Logic--
 const myLibrary = [
@@ -47,12 +48,20 @@ function addBookToLibrary() {
 	);
 
 	myLibrary.push(newBook);
-	displayBook();
+	displayBooks();
 	countBooks();
 	clearForm();
 }
 
-function displayBook() {
+function deleteBookFromLibrary(e) {
+	if (e.target.className.includes("trash-icon")) {
+		myLibrary.splice(e.target.dataset.index, 1);
+	}
+	displayBooks();
+	countBooks();
+}
+
+function displayBooks() {
 	library.textContent = "";
 
 	for (let book of myLibrary) {
@@ -111,6 +120,7 @@ function displayBook() {
 		// Delete Button
 		const bookDeleteBtn = document.createElement("i");
 		bookDeleteBtn.classList.add("fa-solid", "fa-trash", "trash-icon");
+		bookDeleteBtn.setAttribute("data-index", `${myLibrary.indexOf(book)}`);
 		bookCard.append(bookDeleteBtn);
 
 		library.append(bookCard);
@@ -128,12 +138,12 @@ function clearForm() {
 
 function init() {
 	countBooks();
-	displayBook();
+	displayBooks();
 }
 // --Event Listeners--
-libraryForm.addEventListener("submit", addBookToLibrary);
-
 window.addEventListener("DOMContentLoaded", init);
+libraryForm.addEventListener("submit", addBookToLibrary);
+library.addEventListener("click", deleteBookFromLibrary);
 
 openModalBtn.addEventListener("click", () => {
 	formModal.showModal();
