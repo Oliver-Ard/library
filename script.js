@@ -12,16 +12,47 @@ const statusInput = libraryForm.querySelectorAll("input[name='status']");
 // Library
 const booksNrEl = document.querySelector(".library-ledger .books-number");
 const library = document.querySelector("#library");
-const bookCardEl = document.querySelectorAll(".library-book-card");
 
 // --App Logic--
 const myLibrary = [
-	{ title: "Maus", author: "Art Spiegelman", pages: "225", status: "read" },
 	{
-		title: "Ugly love",
-		author: "Collen Hoover",
-		pages: "352",
+		title: "Maus",
+		author: "Art Spiegelman",
+		pages: "296",
+		status: "read",
+		toggleStatus: function () {
+			if (this.status === "read") {
+				return (this.status = "not read yet");
+			} else if (this.status === "not read yet") {
+				return (this.status = "read");
+			}
+		},
+	},
+	{
+		title: "The Strange Case of Dr Jekyll and Mr Hyde",
+		author: "Robert Louis Stevenson",
+		pages: "141",
 		status: "not read yet",
+		toggleStatus: function () {
+			if (this.status === "read") {
+				return (this.status = "not read yet");
+			} else if (this.status === "not read yet") {
+				return (this.status = "read");
+			}
+		},
+	},
+	{
+		title: "Don Quixote",
+		author: "Miguel de Cervantes",
+		pages: "544",
+		status: "not read yet",
+		toggleStatus: function () {
+			if (this.status === "read") {
+				return (this.status = "not read yet");
+			} else if (this.status === "not read yet") {
+				return (this.status = "read");
+			}
+		},
 	},
 ];
 
@@ -31,6 +62,14 @@ function Book(title, author, pages, status) {
 	this.pages = pages;
 	this.status = status;
 }
+
+Book.prototype.toggleStatus = function () {
+	if (this.status === "read") {
+		return (this.status = "not read yet");
+	} else if (this.status === "not read yet") {
+		return (this.status = "read");
+	}
+};
 
 function addBookToLibrary() {
 	let bookStatus = "";
@@ -55,7 +94,8 @@ function addBookToLibrary() {
 
 function deleteBookFromLibrary(e) {
 	if (e.target.className.includes("trash-icon")) {
-		myLibrary.splice(e.target.dataset.index, 1);
+		const bookIndex = e.target.parentNode.dataset.index;
+		myLibrary.splice(bookIndex, 1);
 	}
 	displayBooks();
 	countBooks();
@@ -68,6 +108,7 @@ function displayBooks() {
 		// Card Element
 		const bookCard = document.createElement("div");
 		bookCard.classList.add("library-book-card");
+		bookCard.setAttribute("data-index", `${myLibrary.indexOf(book)}`);
 		// Heading Element with the number of the book
 		const bookNr = document.createElement("h2");
 		bookNr.textContent = "#";
@@ -120,11 +161,18 @@ function displayBooks() {
 		// Delete Button
 		const bookDeleteBtn = document.createElement("i");
 		bookDeleteBtn.classList.add("fa-solid", "fa-trash", "trash-icon");
-		bookDeleteBtn.setAttribute("data-index", `${myLibrary.indexOf(book)}`);
 		bookCard.append(bookDeleteBtn);
 
 		library.append(bookCard);
 	}
+}
+
+function toggleBookStatus(e) {
+	if (e.target.className.includes("status-icon")) {
+		const bookIndex = e.target.parentNode.parentNode.parentNode.dataset.index;
+		myLibrary[bookIndex].toggleStatus();
+	}
+	displayBooks();
 }
 
 function countBooks() {
@@ -140,10 +188,12 @@ function init() {
 	countBooks();
 	displayBooks();
 }
+
 // --Event Listeners--
-window.addEventListener("DOMContentLoaded", init);
 libraryForm.addEventListener("submit", addBookToLibrary);
 library.addEventListener("click", deleteBookFromLibrary);
+library.addEventListener("click", toggleBookStatus);
+window.addEventListener("DOMContentLoaded", init);
 
 openModalBtn.addEventListener("click", () => {
 	formModal.showModal();
