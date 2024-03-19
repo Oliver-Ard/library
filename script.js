@@ -15,6 +15,41 @@ class Book {
 	}
 }
 
+class Storage {
+	static getLibrary() {
+		let library;
+		const libraryData = localStorage.getItem("library");
+		// Check if the library already exists in local storage
+		if (!libraryData) {
+			library = [
+				new Book("Maus", "Art Spiegelman", 296, "read"),
+				new Book(
+					"The Strange Case of Dr Jekyll and Mr Hyde",
+					"Robert Louis Stevenson",
+					296,
+					"not read yet"
+				),
+				new Book("Don Quixote", "Miguel de Cervantes", 544, "not read yet"),
+			];
+			Storage.saveLibrary(library);
+		} else {
+			const libraryObj = JSON.parse(libraryData);
+			// Reconstruct the array instances
+			library = [];
+			libraryObj.forEach((item) => {
+				const book = new Book(item.title, item.author, item.pages, item.status);
+
+				library.push(book);
+			});
+		}
+		return library;
+	}
+
+	static saveLibrary(library) {
+		localStorage.setItem("library", JSON.stringify(library));
+	}
+}
+
 class Library {
 	#formModal;
 	#openModalBtn;
@@ -47,16 +82,7 @@ class Library {
 		this.#booksNrEl = document.querySelector(".library-ledger .books-number");
 		this.#library = document.querySelector("#library");
 
-		this.myLibrary = [
-			new Book("Maus", "Art Spiegelman", 296, "read"),
-			new Book(
-				"The Strange Case of Dr Jekyll and Mr Hyde",
-				"Robert Louis Stevenson",
-				296,
-				"not read yet"
-			),
-			new Book("Don Quixote", "Miguel de Cervantes", 544, "not read yet"),
-		];
+		this.myLibrary = Storage.getLibrary();
 
 		this.#loadEventListeners();
 	}
@@ -80,6 +106,8 @@ class Library {
 		this.#displayBooks();
 		this.#countBooks();
 		this.#clearForm();
+
+		Storage.saveLibrary(this.myLibrary);
 	}
 
 	#deleteBookFromLibrary(e) {
@@ -89,6 +117,8 @@ class Library {
 		}
 		this.#displayBooks();
 		this.#countBooks();
+
+		Storage.saveLibrary(this.myLibrary);
 	}
 
 	#displayBooks() {
@@ -163,6 +193,8 @@ class Library {
 			this.myLibrary[bookIndex].toggleStatus();
 		}
 		this.#displayBooks();
+
+		Storage.saveLibrary(this.myLibrary);
 	}
 
 	#countBooks() {
