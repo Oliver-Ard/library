@@ -50,7 +50,7 @@ class Storage {
 	}
 }
 
-class Library {
+class App {
 	#formModal;
 	#openModalBtn;
 	#closeModalBtn;
@@ -245,4 +245,4 @@ class Library {
 	}
 }
 
-const library = new Library();
+const append = new App();
