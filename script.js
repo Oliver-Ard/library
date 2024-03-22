@@ -50,6 +50,37 @@ class Storage {
 	}
 }
 
+class Form {
+	static showError(input, errorMessage) {
+		const errorElement = input.nextElementSibling;
+
+		if (input.validity.valueMissing) {
+			input.focus();
+			errorElement.textContent = errorMessage;
+			errorElement.classList.add("active");
+		} else {
+			errorElement.textContent = "";
+			errorElement.classList.remove("active");
+		}
+	}
+
+	static checkValidity(input, errorMessage) {
+		if (input.validity.valid) {
+			this.showError(input, "");
+		} else {
+			this.showError(input, errorMessage);
+		}
+	}
+
+	static clearErrorMsg() {
+		const errorMessages = document.querySelectorAll('[data-form="error"]');
+		errorMessages.forEach((msg) => {
+			msg.classList.remove("active");
+			msg.textContent = "";
+		});
+	}
+}
+
 class App {
 	#formModal;
 	#openModalBtn;
@@ -105,7 +136,6 @@ class App {
 		this.myLibrary.push(newBook);
 		this.#displayBooks();
 		this.#countBooks();
-		this.#clearForm();
 
 		Storage.saveLibrary(this.myLibrary);
 	}
@@ -202,12 +232,29 @@ class App {
 	}
 
 	// --Helper Functions--
+	#checkFormValidity(e) {
+		if (!this.#titleInput.validity.valid) {
+			e.preventDefault();
+			return Form.checkValidity(this.#titleInput, "Title book is missing!");
+		} else if (!this.#authorInput.validity.valid) {
+			e.preventDefault();
+			return Form.checkValidity(this.#authorInput, "Author book is missing!");
+		} else if (!this.#pagesInput.validity.valid) {
+			e.preventDefault();
+			return Form.checkValidity(this.#pagesInput, "The pages are missing!");
+		}
+
+		this.#addBookToLibrary();
+		this.#clearForm();
+	}
+
 	#clearForm() {
 		this.#libraryForm.reset();
 	}
 
 	#openModal() {
 		this.#formModal.showModal();
+		this.#clearForm();
 	}
 
 	#closeModal() {
@@ -221,6 +268,7 @@ class App {
 			},
 			{ once: true }
 		);
+		Form.clearErrorMsg();
 	}
 
 	#init() {
@@ -230,16 +278,42 @@ class App {
 
 	#loadEventListeners() {
 		window.addEventListener("DOMContentLoaded", this.#init.bind(this));
+		// --Form--
 		this.#libraryForm.addEventListener(
 			"submit",
-			this.#addBookToLibrary.bind(this)
+			this.#checkFormValidity.bind(this)
 		);
+		// Event listeners for input fields
+		this.#titleInput.addEventListener("input", () => {
+			Form.checkValidity(this.#titleInput, "Title book is missing!");
+		});
+		this.#titleInput.addEventListener("focus", () => {
+			Form.checkValidity(this.#titleInput, "Title book is missing!");
+		});
+		this.#titleInput.addEventListener("blur", Form.clearErrorMsg);
+
+		this.#authorInput.addEventListener("input", () => {
+			Form.checkValidity(this.#authorInput, "Author book is missing!");
+		});
+		this.#authorInput.addEventListener("focus", () => {
+			Form.checkValidity(this.#authorInput, "Author book is missing!");
+		});
+		this.#authorInput.addEventListener("blur", Form.clearErrorMsg);
+
+		this.#pagesInput.addEventListener("focus", () => {
+			Form.checkValidity(this.#pagesInput, "The pages are missing!");
+		});
+		this.#pagesInput.addEventListener("input", () => {
+			Form.checkValidity(this.#pagesInput, "The pages are missing!");
+		});
+		this.#pagesInput.addEventListener("blur", Form.clearErrorMsg);
+		// Event listeners for book card
 		this.#library.addEventListener(
 			"click",
 			this.#deleteBookFromLibrary.bind(this)
 		);
 		this.#library.addEventListener("click", this.#toggleBookStatus.bind(this));
-
+		// Event listeners for modal form
 		this.#openModalBtn.addEventListener("click", this.#openModal.bind(this));
 		this.#closeModalBtn.addEventListener("click", this.#closeModal.bind(this));
 	}
